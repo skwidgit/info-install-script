@@ -1,0 +1,58 @@
+#Links for documentation on installation/prerequisites/build/error/..
+https://wiki.openwrt.org/doc/howto/buildroot.exigence
+
+#Packages to install for building firmware
+
+git git-core build-essential libssl-dev libncurses5-dev unzip gawk gettext subversion mercurial build-essential libssl-dev zlib1g-dev flex gcc-multilib
+
+
+#External Sources for missing packages
+
+http://buildbot.openwrt.org:8010/src/
+http://dev.gateworks.com/sources/
+https://github.com/openwrt/telephony/tree/master/libs/libpri/
+
+
+#Modify feeds.conf.default for Luci package
+
+src-git luci https://github.com/openwrt/luci.git;luci-0.11
+
+#Chaos Calmer
+
+git clone git://github.com/grugq/portal.git
+git clone git://git.openwrt.org/15.05/openwrt.git
+cd openwrt
+wget https://downloads.openwrt.org/chaos_calmer/15.05.1/brcm2708/bcm2709/config.diff -O .config
+scripts/feeds update -a
+scripts/feeds install -a
+cp -r ../portal/feeds/packages/net/tor-alpha/ package/feeds/packages/
+make prereq
+make menuconfig
+
+=> Select the packages you would like
+=> Select Network->tor-alpha
+=> Select Network->tor-alpha-fw-helper
+=> Select Network->tor-alpha-geoip
+=> Select the Network firmware for your device (here, for the Raspberry pi 2 already done but! you could select packages for Wifi-Dongle support)
+
+make V=s
+
+#Barrier Breaker
+
+git clone git://git.openwrt.org/14.07/openwrt.git barrier-breaker
+cd barrier-breaker
+wget https://downloads.openwrt.org/chaos_calmer/15.05.1/brcm2708/bcm2709/config.diff -O .config
+scripts/feeds update -a
+scripts/feeds install -a
+cp -r ../portal/feeds/packages/net/tor-alpha/ package/feeds/packages/
+rm -r package/feeds/oldpackages/tor-alpha
+make prereq
+make menuconfig
+
+=> Select the packages you would like
+=> Select Network->tor-alpha
+=> Select Network->tor-alpha-fw-helper
+=> Select Network->tor-alpha-geoip
+=> Select the Network firmware for your device (here, for the Raspberry pi 2 already done but! you could select packages for Wifi-Dongle support)
+
+make V=s
