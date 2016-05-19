@@ -37,6 +37,10 @@ make menuconfig
 
 make V=s
 
+################################################################################################################################
+# I did'nt test the Barrier Breaker yet for the rpi2, but it will work for others devices if you change it in the menuconfig...#
+################################################################################################################################
+
 #Barrier Breaker
 
 git clone git://git.openwrt.org/14.07/openwrt.git barrier-breaker
